@@ -13,7 +13,10 @@ export const RootQuery = gql`
 
     # Posts
       Post(id: String): Post
-      Category(id: Int, after: String, pageSize: Int): Category
+      Category(id: String, after: String, pageSize: Int): Category
+
+    # Categories
+      Categories: [Category]
 
     # Search
       Search(text: String, pageSize: Int, after: String): Search

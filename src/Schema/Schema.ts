@@ -9,6 +9,7 @@ import { searchType } from "./Search/searchType";
 import { userType } from "./User/userType";
 import { inputsType } from "./Inputs/inputsType";
 import { meType } from "./Me/meType";
+import { categoryType } from "./Category/categoryType";
 
 const SchemaDefinition = gql`
   schema {
@@ -24,6 +25,7 @@ export const schema = makeExecutableSchema({
     RootMutation,
     inputsType,
     categoriesType,
+    categoryType,
     commentsType,
     postsType,
     searchType,

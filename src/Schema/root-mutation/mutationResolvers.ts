@@ -11,6 +11,7 @@ import {
   deletePost
 } from "../../utils/db/Controllers/Posts";
 import { loginUser } from "../../controllers/auth";
+import { createCategory } from "../../utils/db/Controllers/Categories";
 
 export const RootMutation = {
   // User
@@ -58,7 +59,15 @@ export const RootMutation = {
   DeletePost: async (parent, args, context, info) => {
     if (!auth.isLoggedIn(context)) return null;
 
-    return deletePost(args.id);
+    return await deletePost(args.id);
+  },
+
+  // Category
+  CreateCategory: async (parent, args, context, info) => {
+    if (!auth.isLoggedIn(context)) return null;
+
+    const { title, img } = args;
+    return await createCategory(title, img);
   },
 
 

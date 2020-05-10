@@ -7,7 +7,7 @@ export interface IPost extends Document {
   title: string,
   authorId: string,
   message: string,
-  category: number,
+  category: string,
   comments: IComment[],
   removeComments: () => Promise<null>
 }
@@ -26,7 +26,7 @@ const postSchema = new Schema({
     required: true
   },
   category: {
-    type: Number,
+    type: String,
     required: true
   }
 });

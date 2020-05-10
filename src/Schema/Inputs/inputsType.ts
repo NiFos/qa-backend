@@ -13,7 +13,7 @@ export const inputsType = gql`
   input PostInput {
     title: String
     message: String
-    category: Int
+    category: String
     id: String
   }
   input CommentInput {

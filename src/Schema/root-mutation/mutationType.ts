@@ -11,6 +11,9 @@ export const RootMutation = gql`
       CreatePost(data: PostInput): String
       UpdatePost(data: PostInput): String
       DeletePost(id: String): String
+
+    # Category
+      CreateCategory(title: String, img: String): String
       
     # Comments
       CreateComment(data: CommentInput): String

@@ -5,7 +5,7 @@ export async function getPost(id: string) {
   return post;
 }
 
-export async function getPostsInCategory(id: number, after: string, pageSize: number) {
+export async function getPostsInCategory(id: string, after: string, pageSize: number) {
   let posts = [];
   if (after) {
     posts = await Post.find({ category: id, _id: { $gt: after } }).limit(pageSize + 1);
@@ -34,7 +34,7 @@ export function postsCursorMore(posts: any[], pageSize: number) {
 interface IPostData {
   title: string,
   message: string,
-  category: number,
+  category: string,
   id?: string
 }
 export async function createPost(data: IPostData, userId: string) {

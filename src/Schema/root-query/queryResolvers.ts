@@ -3,15 +3,22 @@ import { getUser } from "../../utils/db/Controllers/Users";
 import { searchPosts } from "../../utils/db/Controllers/Search";
 import { getOauthUrl } from "../../controllers/auth";
 import { auth } from "../../utils/auth";
+import { getCategories, getCategoryById } from "../../utils/db/Controllers/Categories";
 
 export const RootQuery = {
   // Posts
   Post: async (parent, args, context, info) => {
     return await getPost(args.id);
   },
+
+
+  // Categories
+  Categories: async (parent, args, context, info) => {
+    return await getCategories();
+  },
   Category: async (parent, args, context, info) => {
-    const { id, after, pageSize } = args;
-    return await getPostsInCategory(id, after, pageSize);
+    const { id } = args;
+    return await getCategoryById(id);
   },
 
   // User
