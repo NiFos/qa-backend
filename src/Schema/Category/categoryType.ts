@@ -4,7 +4,8 @@ export const categoryType = gql`
   type Category {
     title: String
     id: String
-    posts: CategoryPosts
+    img: String
+    posts(after: String, pageSize: Int): CategoryPosts
   }
   type CategoryPosts {
     posts: [Post]

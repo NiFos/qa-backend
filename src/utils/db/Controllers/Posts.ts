@@ -8,9 +8,9 @@ export async function getPost(id: string) {
 export async function getPostsInCategory(id: string, after: string, pageSize: number) {
   let posts = [];
   if (after) {
-    posts = await Post.find({ category: id, _id: { $gt: after } }).limit(pageSize + 1);
+    posts = await Post.find({ category: id, _id: { $gt: after } }).sort({$natural: -1}).limit(pageSize + 1);
   } else {
-    posts = await Post.find({ category: id }).limit(pageSize + 1);
+    posts = await Post.find({ category: id }).sort({$natural: -1}).limit(pageSize + 1);
   }
   return postsCursorMore(posts, pageSize);
 }
@@ -18,7 +18,7 @@ export async function getPostsInCategory(id: string, after: string, pageSize: nu
 export function postsCursorMore(posts: any[], pageSize: number) {
   const hasMore = posts.length > pageSize;
   const newPosts = hasMore ? posts.slice(0, -1) : posts
-  
+
   return {
     posts: newPosts,
     cursor: posts.length

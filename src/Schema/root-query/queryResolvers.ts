@@ -18,6 +18,7 @@ export const RootQuery = {
   },
   Category: async (parent, args, context, info) => {
     const { id } = args;
+    
     return await getCategoryById(id);
   },
 
