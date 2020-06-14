@@ -23,7 +23,6 @@ export const RootMutation = {
     if (!response) return null;
 
     auth.login(response.id, context.res);
-
     return response.id;
   },
   Reg: async (parent, args, context, info) => {

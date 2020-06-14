@@ -3,7 +3,7 @@ import { gql } from "apollo-server";
 export const postsType = gql`
   type Post {
     id: String
-    authorId: String
+    author: User
     title: String
     message: String
     category: String

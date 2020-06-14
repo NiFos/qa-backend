@@ -2,7 +2,8 @@ import { gql } from "apollo-server";
 
 export const commentsType = gql`
   type Comment {
-    authorId: String
+    id: String
+    author: User
     message: String
     votes: Int
   }

@@ -25,9 +25,9 @@ export const auth = {
   },
 
   setTokens(res, [token, refreshToken]) {
-    res.set('Access-Control-Expose-Headers', 'token', 'refreshToken');
-    res.set('token', token);
-    res.set('refreshToken', refreshToken);
+    res.append('token', token);
+    res.append('refreshToken', refreshToken);
+    res.append("Access-Control-Expose-Headers", ['token', 'refreshToken']);
   },
 
   getTokens: (req) => ([
@@ -73,7 +73,7 @@ export const auth = {
     auth.setTokens(res, [token, refreshToken]);
   },
 
-  isLoggedIn: (context) => (context.user && context.user.id)
+  isLoggedIn: (context) => !!(context.user && context.user.id)
 }
 
 interface IRegistration {

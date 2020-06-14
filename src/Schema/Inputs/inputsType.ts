@@ -2,8 +2,8 @@ import { gql } from "apollo-server";
 
 export const inputsType = gql`
   input LoginInput {
-      email: String
-      password: String
+    email: String
+    password: String
   }
   input RegInput {
     username: String

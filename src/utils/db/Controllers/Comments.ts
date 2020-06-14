@@ -3,7 +3,7 @@ import { User } from "../Models/user";
 
 
 export async function findComments(postId: string) {
-  return await Comment.find({ postId });
+  return await Comment.find({ postId }).sort('votes');
 }
 
 

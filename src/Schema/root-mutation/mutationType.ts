@@ -3,8 +3,8 @@ import { gql } from "apollo-server";
 export const RootMutation = gql`
   type RootMutation {
     # Auth
-      Login(data: LoginInput!): String
-      Reg(data: RegInput!): String
+      Login(data: LoginInput): String
+      Reg(data: RegInput): String
       LoginOauth(token: String): String
     
     # Posting
