@@ -13,9 +13,9 @@ import {
 import { loginUser } from "../../controllers/auth";
 import { createCategory } from "../../utils/db/Controllers/Categories";
 
-export const RootMutation = {
+export const RootMutation: any = {
   // User
-  Login: async (parent, args, context, info) => {
+  Login: async (parent: any, args: any, context: any, info: any) => {
     const { email, password } = args.data;
     if (!email || !password) return null;
 
@@ -25,7 +25,7 @@ export const RootMutation = {
     auth.login(response.id, context.res);
     return response.id;
   },
-  Reg: async (parent, args, context, info) => {
+  Reg: async (parent: any, args: any, context: any, info: any) => {
     const { username, email, password } = args.data;
     if (!email || !password || !username) return null;
 
@@ -34,7 +34,7 @@ export const RootMutation = {
 
     return response.id;
   },
-  LoginOauth: async (parent, args, context, info) => {
+  LoginOauth: async (parent: any, args: any, context: any, info: any) => {
     const { token } = args;
 
     if (!token) return false;
@@ -45,24 +45,24 @@ export const RootMutation = {
   },
 
   // Posts
-  CreatePost: async (parent, args, context, info) => {
+  CreatePost: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await createPost(args.data, context.user.id);
   },
-  UpdatePost: async (parent, args, context, info) => {
+  UpdatePost: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await updatePost(args.data);
   },
-  DeletePost: async (parent, args, context, info) => {
+  DeletePost: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await deletePost(args.id);
   },
 
   // Category
-  CreateCategory: async (parent, args, context, info) => {
+  CreateCategory: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     const { title, img } = args;
@@ -71,22 +71,22 @@ export const RootMutation = {
 
 
   // Comments
-  CreateComment: async (parent, args, context, info) => {
+  CreateComment: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await createComment(args.data, context.user.id);
   },
-  UpdateComment: async (parent, args, context, info) => {
+  UpdateComment: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await updateComment(args.data);
   },
-  DeleteComment: async (parent, args, context, info) => {
+  DeleteComment: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     return await deleteComment(args.id);
   },
-  UpvoteComment: async (parent, args, context, info) => {
+  UpvoteComment: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
 
     const { id, up } = args;

@@ -12,8 +12,8 @@ const { PORT } = process.env;
 const server = new ApolloServer({
   schema,
   context: async ({ req, res }) => {
-    const token = req.headers.token;
-    const refreshToken = req.headers.refreshtoken;
+    const token: any = req.headers.token;
+    const refreshToken: any = req.headers.refreshtoken;
     const user = await auth.initializeUser(token, refreshToken, res);
     return {
       user,

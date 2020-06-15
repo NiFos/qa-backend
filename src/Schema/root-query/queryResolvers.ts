@@ -7,33 +7,33 @@ import { getCategories, getCategoryById } from "../../utils/db/Controllers/Categ
 
 export const RootQuery = {
   // Posts
-  Post: async (parent, args, context, info) => {
+  Post: async (parent: any, args: any, context: any, info: any) => {
     return await getPost(args.id);
   },
 
 
   // Categories
-  Categories: async (parent, args, context, info) => {
+  Categories: async (parent: any, args: any, context: any, info: any) => {
     return await getCategories();
   },
-  Category: async (parent, args, context, info) => {
+  Category: async (parent: any, args: any, context: any, info: any) => {
     const { id } = args;
     
     return await getCategoryById(id);
   },
 
   // User
-  Me: async (parent, args, context, info) => {
+  Me: async (parent: any, args: any, context: any, info: any) => {
     if (!context.user) return null;
     return {
       loggedIn: auth.isLoggedIn(context)
     }
   },
-  User: async (parent, args, context, info) => {
+  User: async (parent: any, args: any, context: any, info: any) => {
     const { id } = args;
     return await getUser(id);
   },
-  GetOauthUrl: async (parent, args, context, info) => {
+  GetOauthUrl: async (parent: any, args: any, context: any, info: any) => {
     const { type } = args;
     if (!type) return false;
 
@@ -41,7 +41,7 @@ export const RootQuery = {
   },
 
   // Search
-  Search: async (parent, args, context, info) => {
+  Search: async (parent: any, args: any, context: any, info: any) => {
     const { text, after, pageSize } = args;
     return await searchPosts(text, after, pageSize);
   }

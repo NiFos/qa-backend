@@ -3,7 +3,7 @@ import * as Mongoose from 'mongoose';
 const { MONGO } = process.env;
 
 export const connect = () => {
-  Mongoose.connect(MONGO, {
+  Mongoose.connect(MONGO || '', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: true
