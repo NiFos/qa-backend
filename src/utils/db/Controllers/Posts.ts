@@ -1,4 +1,4 @@
-import { Post } from "../Models/post";
+import { Post, IPost } from "../Models/post";
 
 export async function getPost(id: string) {
   const post = await Post.findById(id);
@@ -49,17 +49,19 @@ export async function createPost(data: IPostData, userId: string) {
 
 export async function updatePost(data: IPostData) {
   const { id, title, message, category } = data;
-  const response = await Post.findByIdAndUpdate(id, {
+  const response: IPost | null = await Post.findByIdAndUpdate(id, {
     title,
     message,
     category
   });
 
-  return response._id;
+  return response!._id;
 }
 
 export async function deletePost(id: string) {
   const post = await Post.findById(id);
+  if (!post) return { valid: false };
+  
   await post.removeComments();
   await post.remove();
   return {

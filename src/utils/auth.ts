@@ -4,14 +4,12 @@ import { google } from 'googleapis';
 import * as generator from 'generate-password';
 import { newUser, loginUser } from '../controllers/auth';
 
-const {
-  TOKEN_EXPIRATION,
-  REFRESH_TOKEN_EXPIRATION,
-  SECRET,
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  GOOGLE_REDIRECT_URL
-} = process.env;
+const TOKEN_EXPIRATION = process.env.TOKEN_EXPIRATION || '10m';
+const REFRESH_TOKEN_EXPIRATION = process.env.REFRESH_TOKEN_EXPIRATION || '1h';
+const SECRET = process.env.SECRET || 'SECRET_STRING';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'CLIENT_ID';
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || 'CLIENT_SECRET';
+const GOOGLE_REDIRECT_URL = process.env.GOOGLE_REDIRECT_URL || 'REDIRECT_URL';
 
 export const auth = {
   createTokens(id: string) {
@@ -24,24 +22,24 @@ export const auth = {
     return [token, refreshToken];
   },
 
-  setTokens(res, [token, refreshToken]) {
+  setTokens(res: any, [token, refreshToken]: any[]) {
     res.append('token', token);
     res.append('refreshToken', refreshToken);
     res.append("Access-Control-Expose-Headers", ['token', 'refreshToken']);
   },
 
-  getTokens: (req) => ([
+  getTokens: (req: any) => ([
     req.headers.token || '',
     req.headers.refreshToken || ''
   ]),
 
-  async refreshTokens(res, refreshToken): Promise<boolean | { id: string }> {
+  async refreshTokens(res: any, refreshToken: string): Promise<false | { id: string }> {
     try {
       const tokenPayload: any = jwt.verify(refreshToken, SECRET);
-      if (!tokenPayload.id) return null;
+      if (!tokenPayload.id) return false;
 
       const user = await User.findById(tokenPayload.id);
-      if (!user) return null;
+      if (!user) return false;
 
       const [newToken, newRefreshToken] = auth.createTokens(user._id);
 
@@ -49,14 +47,16 @@ export const auth = {
       return {
         id: user._id
       };
-    } catch (error) { }
+    } catch (error) {
+      return false;
+     }
   },
 
-  async initializeUser(token, refreshToken, res) {
+  async initializeUser(token: string, refreshToken: string, res: any) {
     if (!token || !refreshToken) return false;
 
     let response = null;
-    jwt.verify(token, SECRET, async (err, info) => {
+    jwt.verify(token, SECRET, async (err, info: any) => {
       if (err) {
         response = await auth.refreshTokens(res, refreshToken);
       } else {
@@ -68,31 +68,31 @@ export const auth = {
     return response;
   },
 
-  async login(id: string, res) {
+  async login(id: string, res: any) {
     const [token, refreshToken] = auth.createTokens(id);
     auth.setTokens(res, [token, refreshToken]);
   },
 
-  isLoggedIn: (context) => !!(context.user && context.user.id)
+  isLoggedIn: (context: any) => !!(context.user && context.user.id)
 }
 
 interface IRegistration {
   valid: boolean,
-  id: string,
+  id: string | null,
   message?: string
 }
-export async function registration(context, username, email, password): Promise<IRegistration> {
-  let response;
+export async function registration(context: any, username: string, email: string, password: string): Promise<IRegistration> {
+  let response: any;
   response = await newUser(username, email, password);
 
   if (response.valid === false && response.message === 'User exist') {
     response = await loginUser(email, null, true);
-  }
-  if (response.valid === false) {
+  } 
+  else if (response.valid === false) {
     return { valid: false, id: null, message: 'Something went wrong!' };
   }
 
-  auth.login(response.id, context.res);
+  auth.login(response!.id, context.res);
   return { valid: true, id: response.id };
 }
 
@@ -126,7 +126,7 @@ export const oauth = {
       return url;
     },
 
-    async getUserInfo(token): Promise<any> {
+    async getUserInfo(token: any): Promise<any> {
       const auth = createConnectionGoogle();
       const data = await auth.getToken(token);
 

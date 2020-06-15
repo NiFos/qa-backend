@@ -1,5 +1,5 @@
 import { Comment } from "../Models/comment";
-import { User } from "../Models/user";
+import { User, IUser } from "../Models/user";
 
 
 export async function findComments(postId: string) {
@@ -17,7 +17,7 @@ interface ICommentData {
  * @param data id post and message
  * @param userId user id who send 
  */
-export async function createComment(data: ICommentData, userId) {
+export async function createComment(data: ICommentData, userId: string) {
   const { id, message } = data;
   const comment = new Comment();
   comment.authorId = userId;
@@ -42,7 +42,9 @@ export async function deleteComment(id: string) {
 }
 
 export async function upvoteComment(id: string, up: boolean, userId: string) {
-  const user = await User.findById(userId);
+  const user: IUser | null = await User.findById(userId);
+  if (!user) return null;
+  
   const userLikeThisComment = user.votes.filter((item) => (item.id === id));
   const newVote = {
     id,

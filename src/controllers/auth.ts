@@ -18,8 +18,8 @@ export async function newUser(username: string, email: string, password: string)
   return { valid: true, id: response._id };
 }
 
-export async function loginUser(email: string, password: string, passPassword?: boolean) {
-  const user: IUser = await User.findOne({ email: email.toLocaleLowerCase() });
+export async function loginUser(email: string, password: string | null, passPassword?: boolean) {
+  const user: any = await User.findOne({ email: email.toLocaleLowerCase() });
 
   if (!user) return { valid: false, message: 'User not exist' };
 

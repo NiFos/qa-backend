@@ -6,7 +6,7 @@ import { meResolver } from "./Me/meResolver";
 import { categoryResolver } from "./Category/categoryResolver";
 import { commentsResolver } from "./Comments/commentsResolver";
 
-export const resolvers = {
+export const resolvers: any = {
   Post: postsResolver,
   User: userResolver,
   Me: meResolver,
