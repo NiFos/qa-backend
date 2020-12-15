@@ -3,12 +3,12 @@ import {
   createComment,
   updateComment,
   deleteComment,
-  upvoteComment
+  upvoteComment,
 } from "../../utils/db/Controllers/Comments";
 import {
   createPost,
   updatePost,
-  deletePost
+  deletePost,
 } from "../../utils/db/Controllers/Posts";
 import { loginUser } from "../../controllers/auth";
 import { createCategory } from "../../utils/db/Controllers/Categories";
@@ -33,15 +33,6 @@ export const RootMutation: any = {
     if (response.valid === false) return null;
 
     return response.id;
-  },
-  LoginOauth: async (parent: any, args: any, context: any, info: any) => {
-    const { token } = args;
-
-    if (!token) return false;
-    const { data } = await oauth.google.getUserInfo(token);
-    const response = await registration(context, data.email, data.email, generatePassword());
-
-    return response;
   },
 
   // Posts
@@ -69,7 +60,6 @@ export const RootMutation: any = {
     return await createCategory(title, img);
   },
 
-
   // Comments
   CreateComment: async (parent: any, args: any, context: any, info: any) => {
     if (!auth.isLoggedIn(context)) return null;
@@ -91,5 +81,5 @@ export const RootMutation: any = {
 
     const { id, up } = args;
     return await upvoteComment(id, up, context.user.id);
-  }
+  },
 };

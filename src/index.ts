@@ -22,7 +22,10 @@ const server = new ApolloServer({
     }
   },
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: [
+      'http://localhost:3000',
+      'https://qa-frontend.netlify.app'
+    ],
     credentials: true
   }
 });

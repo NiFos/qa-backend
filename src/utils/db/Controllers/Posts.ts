@@ -17,6 +17,11 @@ export async function getPostsInCategory(id: string, after: string, pageSize: nu
 }
 
 export function postsCursorMore(posts: any[], pageSize: number) {
+  if (posts.length <= 0) return {
+    posts: [],
+    cursor: false,
+    hasMore: false
+  }
   const hasMore = posts.length > pageSize;
   const newPosts = hasMore ? posts.slice(0, -1) : posts
 
@@ -61,7 +66,7 @@ export async function updatePost(data: IPostData) {
 export async function deletePost(id: string) {
   const post = await Post.findById(id);
   if (!post) return { valid: false };
-  
+
   await post.removeComments();
   await post.remove();
   return {
